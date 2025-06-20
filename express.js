@@ -1,16 +1,18 @@
 
 const express = require('express');
+const path = require('path');
+
+//const morgan = require('morgan');
 const app = express();
-const port = 3000;
+
+app.set('views', path.resolve(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.render('index', { title: 'Página Principal' });
 });
 
-app.get('/about', (req, res) => {
-  res.send('About Page');
-});
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+app.listen(3000, () => {
+  console.log('Servidor corriendo en http://localhost:3000');
 });
