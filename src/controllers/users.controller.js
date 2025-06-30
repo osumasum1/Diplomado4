@@ -153,6 +153,19 @@ async function getUsersSearch(req, res, next) {
     const { page, limit, search, orderBy, orderDir } = req.query;
 
     try {
+        // Validar el límite permitido
+        const allowedLimits = [5, 10, 15, 20];
+        let pageLimit;
+        if (limit === undefined) {
+            pageLimit = 10;
+        } else if (!allowedLimits.includes(Number(limit))) {
+            return res.status(400).json({
+                message: 'El parámetro limit solo puede ser 5, 10, 15 o 20.'
+            });
+        } else {
+            pageLimit = Number(limit);
+        }
+
         const searchClause = {
             ...(search && {
                 username: {
@@ -162,8 +175,8 @@ async function getUsersSearch(req, res, next) {
         };
 
         const users = await Users.findAll({
-            limit: limit ? parseInt(limit) : 10,
-            offset: page ? (parseInt(page) - 1) * (limit ? parseInt(limit) : 10) : 0,
+            limit: pageLimit,
+            offset: page ? (parseInt(page) - 1) * pageLimit : 0,
             order: [[orderBy || 'id', orderDir || 'DESC']],
             attributes: ['id', 'username', 'status'],
             where: {...searchClause},
@@ -172,7 +185,7 @@ async function getUsersSearch(req, res, next) {
         res.json({
             total: total,
             page: page ? parseInt(page) : 1,
-            pages: Math.ceil(total / (limit ? parseInt(limit) : 10)),
+            pages: Math.ceil(total / pageLimit),
             users
         });
     } catch (error) {
