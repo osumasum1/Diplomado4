@@ -1,0 +1,1 @@
+PGPASSWORD=ejEir5D0UPe36l0gjaJAxEJpPMbrKmW5 psql -h dpg-d1gu8hbipnbc73b6it1g-a.oregon-postgres.render.com -U ogarcia diplomado_db_kavl

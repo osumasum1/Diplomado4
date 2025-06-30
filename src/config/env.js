@@ -15,7 +15,8 @@ const config = {
     DB_DIALECT: requiredEnv('DB_DIALECT'),
     BCRYPT_SALT_ROUNDS: +requiredEnv('BCRYPT_SALT_ROUNDS'),
     JWT_SECRET: requiredEnv('JWT_SECRET'),
-    JWT_EXPIRATION_SECONDS: requiredEnv('JWT_EXPIRATION_SECONDS')
+    JWT_EXPIRATION_SECONDS: requiredEnv('JWT_EXPIRATION_SECONDS'),
+    DB_USE_SSL: requiredEnv('DB_USE_SSL') ?? false,
 }
 
 export default config
